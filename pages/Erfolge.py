@@ -3,7 +3,7 @@ import pandas as pd
 
 # Page init ----
 st.set_page_config(
-    page_title="Zusammenfassung",
+    page_title="Meine Lernerfolge",
     page_icon="🤖",
     layout="centered",
     initial_sidebar_state="expanded"

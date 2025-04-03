@@ -74,7 +74,7 @@ else:
     st.success("Viel Erfolg beim Üben!")
     st.write("Wähle zuerst ein Lernziel.")
     st.write("Gehe dann zum Training.")
-    st.write("In der Zusammenfassung siehst du deine Übungserfolge.")
+    st.write("Feiere deine Lernerfolge.")
 
     # Logout in Sidebar anzeigen
     with st.sidebar:

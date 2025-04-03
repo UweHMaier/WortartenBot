@@ -24,21 +24,19 @@ with st.sidebar:
 
 
 # --- Page
-st.title("DEINE LERNZEIEL")
-st.header("Was möchtest Du üben?")
-
+st.title("DEIN LERNZIEL")
+st.subheader("Du kannst eine Wortart mit Sätzen zu einem Lieblingsthema üben.")
 # Auswahl
 Wortarten_Auswahl = ["Nomen", "Verben", "Adjektive", "Artikel"]
-Wortart = st.pills("Welche Wortart willst Du üben?", Wortarten_Auswahl, selection_mode="single")
+Wortart = st.pills("Welche Wortart möchtest du üben?", Wortarten_Auswahl, selection_mode="single")
 st.session_state["Wortart"] = Wortart
 
-Hobby_Auswahl = ["Volleyball", "Fussball", "Kino", "Schminken", "Pferde"]
-Hobby = st.pills("Was interessiert Dich?", Hobby_Auswahl, selection_mode="single")
+Hobby_Auswahl = ["Volleyball", "Fussball", "Kino", "Schminken", "Pferde", "Rennautos", "Raumfahrt", "Musik"]
+Hobby = st.pills("Welches Thema interessiert Dich?", Hobby_Auswahl, selection_mode="single")
 st.session_state["Hobby"] = Hobby
 
 if Wortart and Hobby:
-    st.success(f"Du übst jetzt die Wortart {Wortart} mit Sätzen zum Thema {Hobby}.")
-    st.write("Gehe zum Training!")
+    st.success(f"Alles klar! Gehe zum Training und übe die Wortart **{Wortart}** mit Sätzen zum Thema **{Hobby}**.")
 else:
     st.error("Klicke auf eine Wortart und ein Hobby!")
 

@@ -27,7 +27,7 @@ with st.sidebar:
 
 
 # --- Page  ---
-st.title("Übung macht den Meister!")
+st.title("Beim Training ...")
 
 # --- Check Inputs ---
 if not st.session_state["Wortart"] or not st.session_state["Hobby"]:
@@ -79,22 +79,23 @@ idx = st.session_state["sentence_index"]  #beim ersten Durchgang 0
 
 # --- All Sentences Done ---
 if idx >= len(sentences):
-    st.success("Du hast alle Sätze bearbeitet.")
-    st.write(f"Du kannst jetzt nochmal die Wortart {st.session_state['Wortart']} üben.")
-    st.write(f"Oder du gehst zu den Lernzielen und wählst eine andere Wortart.")
-    st.write(f"Deine bisherigen Übungserfolge siehst Du in der Zusammenfassung.")
-
     # If current chatlog not yet saved
     if not st.session_state["chat_saved"]:
         st.session_state["chats"].append(st.session_state["chatlog"])
         st.session_state["chat_saved"] = True  # ✅ mark as saved
 
-    # Reset everything for new chat
-    if st.button("Nochmal von vorn"):
+    st.success("Du hast alle Sätze bearbeitet.")
+
+    # Nochmal gleiche Wortart üben; Reset everything for new chat
+    st.markdown("""<style>div.stButton > button {background-color: #8A2BE2; color: white; font-weight: bold; border-radius: 8px; }</style>""", unsafe_allow_html=True)
+    if st.button(f"Nochmal die Wortart {st.session_state['Wortart']} üben"):
         for key in ["sentences", "sentence_index", "student_answers", "feedbacks", "current_input", "chatlog", "current_chat_id", "chat_saved"]:
             if key in st.session_state:
                 del st.session_state[key]
         st.rerun()
+
+    st.write(f"Gehe zu Lernziele, um eine andere Wortart zu üben.")
+    st.write(f"Deine bisherigen Trainings siehst Du bei Erfolge.")
 
     # Stop to prevent index errors
     st.stop()
@@ -114,11 +115,14 @@ with st.chat_message("assistant"):
 
 # Only show input if no input is stored yet
 if st.session_state["current_input"] == "":
-    user_input = st.chat_input("Deine Antwort ...")
+    with st.chat_message("user"):
+        with st.form("user_input_form"):
+            user_input = st.text_input("Deine Antwort ...", key=f"input_{idx}")
+            submitted = st.form_submit_button("Antwort senden")
 
-    if user_input:
-        st.session_state["current_input"] = user_input
-        st.rerun()
+        if submitted and user_input.strip():
+            st.session_state["current_input"] = user_input.strip()
+            st.rerun()
 
 
 # --- If input was given, show feedback and continue button ---
