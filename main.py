@@ -37,9 +37,20 @@ if not st.session_state["logged_in"]:
 
 # --- Login UI ---
 if not st.session_state["logged_in"]:
-    st.title("🔐 MasteryX Login")
+    col1, col2 = st.columns([1, 2])  # image narrower than text
+    with col1:
+        st.image("images/jonny.png", caption="Hallihallo", width=200)
+    with col2:
+        st.markdown(
+        """
+        <div style='text-align: center;'>
+            <h1 style='color: grey; font-size: 500%'>Mastery</h1>
+            <h1 style='color: darkviolet;'>WORTARTEN</h1>
+        </div>
+        """,
+        unsafe_allow_html=True)
     st.subheader("Bitte einloggen")
-
+    
     with st.form("login_form"):
         username = st.text_input("Benutzername")
         password = st.text_input("Passwort", type="password")
