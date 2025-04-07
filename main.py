@@ -1,43 +1,39 @@
 import streamlit as st
-st.set_page_config(page_title="MasteryX", layout="centered")
 import uuid
-from utils.navigation import navigate  # <- you create this helper
 
-st.markdown("""
-    <style>
-    [data-testid="stSidebar"], [data-testid="collapsedControl"] {
-        display: none !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
+# --- Set page config ---
+st.set_page_config(page_title="MasteryX", layout="centered")
 
-# --- 1. Init state ---
-if "page" not in st.session_state:
-    st.session_state["page"] = "main"
-
+# --- Init state for one session ---
 if "session_id" not in st.session_state:
     st.session_state["session_id"] = str(uuid.uuid4())
 
-# --- 2. Routing Logic ---
-if st.session_state["page"] == "main":
-    from pages.login import show_login
-    show_login()
+if "user" not in st.session_state:
+    st.session_state["user"] = "Demo-User"
 
-elif st.session_state["page"] == "welcome":
-    from pages.welcome import show_welcome
-    show_welcome()
+# --- Page setup ---
+lernziele_page = st.Page(
+    page="views/lernziele.py",
+    title="Lernziele",
+    icon=":material/account_circle:",
+    default=True,
+)
+training_page = st.Page(
+    page="views/training.py",
+    title="Training",
+)
+erfolge_page = st.Page(
+    page="views/erfolge.py",
+    title="Erfolge",
+)
 
-elif st.session_state["page"] == "lernziele":
-    from pages.lernziele import show_lernziele
-    show_lernziele()
+# --- Navigation Menu ---
+pg = st.navigation(pages=[lernziele_page, training_page, erfolge_page])
 
-elif st.session_state["page"] == "training":
-    from pages.training import show_training
-    show_training()
+# --- Shared on all pages ---
+st.logo("images/jonny.png")
+st.sidebar.markdown(f"👋 Hallo {st.session_state['user']}!")
+st.sidebar.markdown(f"🆔 Session-ID: `{st.session_state['session_id']}`")
 
-elif st.session_state["page"] == "summary":
-    from pages.summary import show_summary
-    show_summary()
-
-else:
-    st.error("❌ Unbekannte Seite. Bitte zurück zur Startseite.")
+# --- Run the selected page ---
+pg.run()
